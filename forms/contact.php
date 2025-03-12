@@ -1,110 +1,83 @@
 <?php
+// Configuración de cabeceras para respuesta JSON
+header('Content-Type: application/json');
 
-
-// Replace contact@example.com with your real receiving email address
-$receiving_email_address = 'info@cotef.com.ar'; // Cambia esto a tu email
-
-// Valores para la copia (CC)
-$cc_email = ''; // Opcional: para recibir una copia del mensaje
-
-// Log de los mensajes recibidos
-$log_file = '../logs/contact_form_log.txt';
-$log_directory = dirname($log_file);
-
-// Asegurarse de que el directorio de logs exista
-if (!file_exists($log_directory)) {
-  mkdir($log_directory, 0755, true);
+// Solo permitir solicitudes POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+    exit;
 }
 
-// Validación del lado del servidor
-$errors = array();
+// Configuración de correo - ACTUALIZA ESTOS VALORES
+$to_email = "info@cotef.com.ar"; // Cambiar al correo que recibirá los mensajes
+$subject = "Nuevo mensaje desde el formulario de contacto COTEF";
 
-// Validar email
-if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-  $errors[] = "Email inválido";
+// Capturar datos del formulario y sanitizarlos
+$name = filter_var($_POST['name'] ?? '', FILTER_SANITIZE_STRING);
+$email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
+$message_subject = filter_var($_POST['subject'] ?? '', FILTER_SANITIZE_STRING);
+$message = filter_var($_POST['message'] ?? '', FILTER_SANITIZE_STRING);
+
+// Validar campos obligatorios
+if (empty($name) || empty($email) || empty($message_subject) || empty($message)) {
+    echo json_encode(['success' => false, 'message' => 'Por favor complete todos los campos requeridos']);
+    exit;
 }
 
-// Validar que el nombre no esté vacío
-if (empty($_POST['name'])) {
-  $errors[] = "El nombre es requerido";
+// Validar formato de email
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['success' => false, 'message' => 'Por favor ingrese un correo electrónico válido']);
+    exit;
 }
 
-// Validar que el mensaje tenga al menos 10 caracteres
-if (strlen($_POST['message']) < 10) {
-  $errors[] = "El mensaje debe tener al menos 10 caracteres";
+// Construir el cuerpo del mensaje
+$body = "Nombre: $name\n";
+$body .= "Email: $email\n";
+$body .= "Asunto: $message_subject\n\n";
+$body .= "Mensaje:\n$message";
+
+// Configurar cabeceras del correo
+$headers = "From: $name <$email>\r\n";
+$headers .= "Reply-To: $email\r\n";
+$headers .= "X-Mailer: PHP/" . phpversion();
+
+// Intentar enviar el correo
+try {
+    // Opción 1: Usando la función mail() de PHP
+    if (mail($to_email, "$subject: $message_subject", $body, $headers)) {
+        echo json_encode(['success' => true, 'message' => 'Su mensaje ha sido enviado. ¡Gracias!']);
+    } else {
+        throw new Exception("Error al enviar el correo");
+    }
+    
+    /* 
+    // Opción 2: Usar PHPMailer (requiere instalación)
+    // Descomenta este código si decides usar PHPMailer en lugar de la función mail()
+    
+    require 'vendor/autoload.php'; // Asegúrate de tener instalado PHPMailer vía Composer
+    
+    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+    $mail->isSMTP();
+    $mail->Host = 'smtp.hostinger.com'; // Servidor SMTP de Hostinger
+    $mail->SMTPAuth = true;
+    $mail->Username = 'info@cotef.com.ar'; // Tu correo en Hostinger
+    $mail->Password = 'tu_contraseña'; // Tu contraseña
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+    
+    $mail->setFrom($email, $name);
+    $mail->addAddress($to_email);
+    $mail->Subject = "$subject: $message_subject";
+    $mail->Body = $body;
+    
+    $mail->send();
+    echo json_encode(['success' => true, 'message' => 'Su mensaje ha sido enviado. ¡Gracias!']);
+    */
+    
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Hubo un error al enviar su mensaje. Por favor intente más tarde.']);
+    
+    // Opcionalmente, registrar el error (comenta esta línea en producción)
+    // error_log('Error en formulario de contacto: ' . $e->getMessage());
 }
-
-// Si hay errores, terminar
-if (!empty($errors)) {
-  echo implode(", ", $errors);
-  die();
-}
-
-// Comprobar si existe la biblioteca PHP Email Form
-if (file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php')) {
-  include($php_email_form);
-} else {
-  die('Unable to load the "PHP Email Form" Library!');
-}
-
-$contact = new PHP_Email_Form;
-$contact->ajax = true;
-
-$contact->to = $receiving_email_address;
-$contact->cc = $cc_email; // Agregar copia
-$contact->from_name = $_POST['name'];
-$contact->from_email = $_POST['email'];
-$contact->subject = $_POST['subject'];
-
-// Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-/*
-$contact->smtp = array(
-  'host' => 'example.com',
-  'username' => 'example',
-  'password' => 'pass',
-  'port' => '587'
-);
-*/
-
-// Agregar todos los campos al mensaje
-$contact->add_message($_POST['name'], 'Nombre');
-$contact->add_message($_POST['email'], 'Email');
-
-// Agregar teléfono si está presente
-if (isset($_POST['phone']) && !empty($_POST['phone'])) {
-  $contact->add_message($_POST['phone'], 'Teléfono');
-}
-
-$contact->add_message($_POST['message'], 'Mensaje', 10);
-
-// Añadir fecha y hora de recepción
-$date = new DateTime();
-$contact->add_message($date->format('Y-m-d H:i:s'), 'Fecha de envío');
-
-// Registrar en el log
-$log_entry = date('Y-m-d H:i:s') . " - Mensaje de: " . $_POST['name'] . " (" . $_POST['email'] . ")\n";
-file_put_contents($log_file, $log_entry, FILE_APPEND);
-
-// Información adicional para el log (IP del remitente)
-$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
-file_put_contents($log_file, "IP: " . $ip . "\n\n", FILE_APPEND);
-
-// Enviar el formulario
-echo $contact->send();
-
-// Opcional: Guardar una copia en la base de datos
-/*
-if (extension_loaded('mysqli')) {
-  $mysqli = new mysqli('localhost', 'user', 'password', 'database');
-  
-  if (!$mysqli->connect_error) {
-    $stmt = $mysqli->prepare("INSERT INTO contact_messages (name, email, subject, message, phone, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
-    $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
-    $stmt->bind_param("sssss", $_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message'], $phone);
-    $stmt->execute();
-    $stmt->close();
-    $mysqli->close();
-  }
-}
-*/
 ?>

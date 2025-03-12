@@ -1872,6 +1872,40 @@ section,
 }
 
 
+/* Asegurar que el enlace de contacto solo se muestre en móviles en el menú */
+@media (min-width: 1200px) {
+  .d-xl-none {
+    display: none !important;
+  }
+}
+
+/* Clases de ayuda para mostrar/ocultar contenido en dispositivos móviles */
+@media (max-width: 767.98px) {
+  .d-none.d-md-flex {
+    display: none !important;
+  }
+  
+  .d-md-none {
+    display: block !important;
+  }
+  
+  /* Espaciado para el mapa en dispositivos móviles */
+  #contact .mt-4.d-md-none {
+    margin-top: 2rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .d-md-none {
+    display: none !important;
+  }
+  
+  .d-none.d-md-flex {
+    display: flex !important;
+  }
+}
+
+
 /*--------------------------------------------------------------
 # Starter Section Section
 --------------------------------------------------------------*/
