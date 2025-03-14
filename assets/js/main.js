@@ -201,4 +201,130 @@
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
+
+  // Script para paginación responsiva de noticias
+document.addEventListener('DOMContentLoaded', function() {
+  // Elementos que necesitamos
+  const newsContainer = document.getElementById('news-container');
+  const paginationContainer = document.getElementById('pagination-container');
+  const newsItems = document.querySelectorAll('.news-item');
+  const paginationArrows = document.querySelectorAll('.pagination-arrow');
+  
+  // Variables para la paginación
+  let currentPage = 1;
+  let itemsPerPage = window.innerWidth < 768 ? 3 : 6; // Móvil: 3 items, Desktop: 6 items
+  let totalPages = Math.ceil(newsItems.length / itemsPerPage);
+  
+  // Inicializar la paginación
+  initPagination();
+  
+  // Actualizar paginación cuando cambia el tamaño de la ventana
+  window.addEventListener('resize', function() {
+    const newItemsPerPage = window.innerWidth < 768 ? 3 : 6;
+    
+    // Solo actualizamos si cambia la cantidad de items por página
+    if (newItemsPerPage !== itemsPerPage) {
+      itemsPerPage = newItemsPerPage;
+      totalPages = Math.ceil(newsItems.length / itemsPerPage);
+      
+      // Si la página actual ahora es mayor que el total de páginas, ajustamos
+      if (currentPage > totalPages) {
+        currentPage = totalPages;
+      }
+      
+      // Actualizar la paginación y los items visibles
+      updatePaginationButtons();
+      showItems();
+    }
+  });
+  
+  // Función para inicializar la paginación
+  function initPagination() {
+    // Generar botones de paginación
+    updatePaginationButtons();
+    
+    // Mostrar los items de la página actual
+    showItems();
+    
+    // Agregar event listeners a los botones de paginación
+    paginationArrows.forEach(arrow => {
+      arrow.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const action = this.getAttribute('data-page');
+        
+        if (action === 'prev' && currentPage > 1) {
+          currentPage--;
+          showItems();
+          updatePaginationButtons();
+        } else if (action === 'next' && currentPage < totalPages) {
+          currentPage++;
+          showItems();
+          updatePaginationButtons();
+        }
+        
+        // Desplazar al inicio de la sección de noticias
+        document.querySelector('#news').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+  
+  // Función para mostrar los items de la página actual
+  function showItems() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    
+    newsItems.forEach((item, index) => {
+      if (index >= startIndex && index < endIndex) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+  
+  // Función para actualizar los botones de paginación
+  function updatePaginationButtons() {
+    // Limpiar botones de número de página existentes
+    const pageButtons = document.querySelectorAll('.page-number');
+    pageButtons.forEach(button => button.parentNode.remove());
+    
+    // Obtenemos la flecha izquierda y derecha
+    const prevArrow = paginationContainer.querySelector('[data-page="prev"]').parentNode;
+    const nextArrow = paginationContainer.querySelector('[data-page="next"]').parentNode;
+    
+    // Deshabilitar flechas si estamos en la primera o última página
+    prevArrow.querySelector('a').classList.toggle('disabled', currentPage === 1);
+    nextArrow.querySelector('a').classList.toggle('disabled', currentPage === totalPages);
+    
+    // Crear nuevos botones de número de página
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#';
+      a.textContent = i;
+      a.classList.add('page-number');
+      
+      if (i === currentPage) {
+        a.classList.add('active');
+      }
+      
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        currentPage = i;
+        showItems();
+        updatePaginationButtons();
+        
+        // Desplazar al inicio de la sección de noticias
+        document.querySelector('#news').scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      li.appendChild(a);
+      // Insertamos antes de la flecha derecha
+      paginationContainer.insertBefore(li, nextArrow);
+    }
+  }
+});
+
 })();
+

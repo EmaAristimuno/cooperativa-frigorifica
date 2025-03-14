@@ -144,7 +144,7 @@
 </section><!-- /About Section -->
 
 
-<!-- News Section -->
+<!-- News Section Corregida -->
 <section id="news" class="news section">
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
@@ -153,7 +153,7 @@
   </div><!-- End Section Title -->
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row gy-4">
+    <div class="row gy-4" id="news-container">
       
       <!-- News Item 1 -->
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
@@ -190,7 +190,7 @@
       </div><!-- End News Item -->
       
       <!-- News Item 3 -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+      <div class="col-lg-4 col-md-6 " data-aos="fade-up" data-aos-delay="400">
         <article class="news-item">
           <div class="news-img">
             <img src="assets/img/instagram/image3.jpeg" class="img-fluid" alt="Bienestar Laboral">
@@ -207,7 +207,7 @@
       </div><!-- End News Item -->
       
       <!-- News Item 4 -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+      <div class="col-lg-4 col-md-6 " data-aos="fade-up" data-aos-delay="200">
         <article class="news-item">
           <div class="news-img">
             <img src="assets/img/instagram/image5.jpeg" class="img-fluid" alt="Modelo Cooperativo">
@@ -224,7 +224,7 @@
       </div><!-- End News Item -->
       
       <!-- News Item 5 -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+      <div class="col-lg-4 col-md-6 " data-aos="fade-up" data-aos-delay="300">
         <article class="news-item">
           <div class="news-img">
             <img src="assets/img/instagram/image4.jpeg" class="img-fluid" alt="Proyección Internacional">
@@ -261,18 +261,15 @@
     
     <!-- Pagination -->
     <div class="pagination d-flex justify-content-center mt-5" data-aos="fade-up" data-aos-delay="200">
-      <ul>
-        <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
-        <li><a href="#" class="active">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#"><i class="bi bi-chevron-right"></i></a></li>
+      <ul id="pagination-container">
+        <li><a href="#" class="pagination-arrow" data-page="prev"><i class="bi bi-chevron-left"></i></a></li>
+        <!-- Los números de página se generarán dinámicamente -->
+        <li><a href="#" class="pagination-arrow" data-page="next"><i class="bi bi-chevron-right"></i></a></li>
       </ul>
     </div><!-- End Pagination -->
     
   </div>
 </section><!-- End News Section -->
-
 
 
 
@@ -429,21 +426,15 @@
             <h3>Ubicación</h3>
             <p>Calle General Espejo y, Padre Pascual Uva s/n, E3100 Paraná, Entre Ríos</p>
           </div>
-        </div><!-- End Info Item -->
-        
-        <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-          <i class="bi bi-clock flex-shrink-0"></i>
-          <div>
-            <h3>Horario de Atención</h3>
-            <p>Lunes-Viernes:<br>08:00 AM - 20:00 PM</p>
-          </div>
-        </div><!-- End Info Item -->
+        </div><!-- End Info Item -->    
+    
         
         <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
           <i class="bi bi-telephone flex-shrink-0"></i>
           <div>
             <h3>Llámenos</h3>
             <p>+54 343 435-1831</p>
+            <p>+54 343 472-9424</p>
           </div>
         </div><!-- End Info Item -->
         
@@ -501,71 +492,99 @@
 </section><!-- /Contact Section -->
 </main>
 
-<footer id="footer" class="footer">
-
-<div class="container footer-top">
-  <div class="row gy-4">
-    <div class="col-lg-4 col-md-6 footer-about">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <span class="sitename">COTEF Ltda</span>
-      </a>
-      <div class="footer-contact pt-3">
-        <p>Calle General Espejo y Padre Pascual Uva s/n</p>
-        <p>Paraná, Entre Ríos, CP 3100</p>
-        <p class="mt-3"><strong>Teléfono:</strong> <span>+54 343 435-1831</span></p>
-        <p><strong>Email:</strong> <span>info@cotef.com.ar</span></p>
+<!-- Footer Section -->
+<footer id="footer" class="footer py-5">
+  <div class="container footer-top">
+    <div class="row gy-4">
+      <div class="col-lg-4 col-md-6 footer-about">
+        <a href="index.html" class="logo d-flex align-items-center mb-3">
+          <span class="sitename fw-bold fs-4">COTEF Ltda</span>
+        </a>
+        <p class="text-muted">Ofrecemos soluciones de alta calidad para la distribución mayorista y minorista. Comprometidos con la excelencia y la satisfacción del cliente.</p>
+        <div class="footer-contact mt-4">
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-geo-alt-fill me-2 text-primary"></i>
+            <p class="mb-0">Calle General Espejo y Padre Pascual Uva s/n</p>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-pin-map-fill me-2 text-primary"></i>
+            <p class="mb-0">Paraná, Entre Ríos, CP 3100</p>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="bi bi-telephone-fill me-2 text-primary"></i>
+            <p class="mb-0"><strong>Teléfono:</strong> <span>+54 343 435-1831</span></p>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="bi bi-envelope-fill me-2 text-primary"></i>
+            <p class="mb-0"><strong>Email:</strong> <span>info@cotef.com.ar</span></p>
+          </div>
+        </div>
+        <!--<div class="social-links d-flex mt-4">
+          <a href="" class="me-2 btn btn-outline-primary rounded-circle"><i class="bi bi-facebook"></i></a>
+          <a href="" class="me-2 btn btn-outline-primary rounded-circle"><i class="bi bi-instagram"></i></a>
+          <a href="" class="me-2 btn btn-outline-primary rounded-circle"><i class="bi bi-whatsapp"></i></a>
+          <a href="" class="btn btn-outline-primary rounded-circle"><i class="bi bi-envelope"></i></a>
+        </div>
+      -->
       </div>
-      <div class="social-links d-flex mt-4">
-        <a href=""><i class="bi bi-twitter-x"></i></a>
-        <a href=""><i class="bi bi-facebook"></i></a>
-        <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
+
+      <div class="col-lg-2 col-md-3 footer-links">
+        <h4 class="fw-bold border-start border-primary border-3 ps-3 mb-4">Enlaces Útiles</h4>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Inicio</a></li>
+          <li class="mb-2"><a href="#about" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Sobre nosotros</a></li>
+          <li class="mb-2"><a href="#events" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Servicios</a></li>
+          <li class="mb-2"><a href="#contact" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Contacto</a></li>
+          <li class="mb-2"><a href="#news" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Noticias</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-2 col-md-3 footer-links">
+        <h4 class="fw-bold border-start border-primary border-3 ps-3 mb-4">Nuestros Servicios</h4>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#events" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Distribución Mayorista</a></li>
+          <li class="mb-2"><a href="#events" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Pedidos Minoristas</a></li>
+          <li class="mb-2"><a href="#events" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Paquetes Familiares</a></li>
+          <li class="mb-2"><a href="#events" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Eventos Especiales</a></li>
+          <li class="mb-2"><a href="#events" class="text-decoration-none"><i class="bi bi-chevron-right me-1 text-primary"></i>Asesoría Profesional</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-4 col-md-6 footer-hours">
+        <h4 class="fw-bold border-start border-primary border-3 ps-3 mb-4">Horarios de Atención</h4>
+        
+        <div class="mb-4">
+          <h5 class="fw-bold d-flex align-items-center"><i class="bi bi-briefcase me-2 text-primary"></i>Administración</h5>
+          <div class="ms-4">
+            <p class="mb-1">Lunes a Viernes: 8:00 hs a 16:00</p>
+            <p class="mb-0">Sábados: Cerrado</p>
+          </div>
+        </div>
+        
+        <div>
+          <h5 class="fw-bold d-flex align-items-center"><i class="bi bi-shop me-2 text-primary"></i>Ventas</h5>
+          <div class="ms-4">
+            <p class="mb-1">Lunes a Viernes: 8:00 - 18:00</p>
+            <p class="mb-0">Sábados: 9:00 - 13:00</p>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="col-lg-2 col-md-3 footer-links">
-      <h4>Enlaces Útiles</h4>
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Sobre nosotros</a></li>
-        <li><a href="#">Servicios</a></li>
-        <li><a href="#">Términos de servicio</a></li>
-        <li><a href="#">Política de privacidad</a></li>
-      </ul>
-    </div>
-
-    <div class="col-lg-2 col-md-3 footer-links">
-      <h4>Nuestros Servicios</h4>
-      <ul>
-        <li><a href="#">Distribución Mayorista</a></li>
-        <li><a href="#">Pedidos Minoristas</a></li>
-        <li><a href="#">Paquetes Familiares</a></li>
-        <li><a href="#">Eventos Especiales</a></li>
-        <li><a href="#">Asesoría Profesional</a></li>
-      </ul>
-    </div>
-
-    <div class="col-lg-4 col-md-12 footer-newsletter">
-      <h4>Nuestro Boletín</h4>
-      <p>Suscríbase a nuestro boletín y reciba las últimas novedades sobre nuestros productos y servicios</p>
-      <form action="forms/newsletter.php" method="post" class="php-email-form">
-        <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Suscribirse"></div>
-        <div class="loading">Cargando</div>
-        <div class="error-message"></div>
-        <div class="sent-message">¡Su solicitud de suscripción ha sido enviada. Gracias!</div>
-      </form>
-    </div>
-
   </div>
-</div>
 
-<div class="container copyright text-center mt-4">
-  <p>© <span>Copyright</span> <strong class="px-1 sitename">COTEF Ltda</strong> <span>Todos los Derechos Reservados</span></p>
-  <div class="credits">
-    Diseñado por <a href="#">Devema</a>
+  <div class="container mt-5">
+    <hr class="my-4">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start">
+        <p class="mb-md-0">© <span>Copyright</span> <strong class="px-1 sitename">COTEF Ltda</strong> <span>2025. Todos los Derechos Reservados</span></p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <div class="credits">
+          Diseñado con <i class="bi bi-heart-fill text-danger"></i> por <a href="#" class="text-decoration-none fw-bold">Devema</a>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-
 </footer>
 
 <!-- Scroll Top -->

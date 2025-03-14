@@ -1672,7 +1672,7 @@ section,
 }
 
 .contact .info-item+.info-item {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .contact .info-item i {
@@ -1749,6 +1749,8 @@ section,
 /*--------------------------------------------------------------
 # News Section
 --------------------------------------------------------------*/
+/* ELIMINAR ESTOS ESTILOS (líneas 1477-1540 aproximadamente): */
+
 .news .news-item {
   background: #fff;
   border-radius: 8px;
@@ -1779,11 +1781,87 @@ section,
   transform: scale(1.1);
 }
 
+/* REEMPLAZAR CON ESTOS ESTILOS: */
+
+/* Estilos corregidos para News Section */
+.news .col-lg-4,
+.news .col-md-6 {
+  margin-bottom: 30px;
+}
+
+.news article.news-item {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.news article.news-item:hover {
+  transform: translateY(-5px);
+}
+
+.news .news-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.news .news-img img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: 0.5s;
+}
+
+.news article.news-item:hover .news-img img {
+  transform: scale(1.1);
+}
+
+/* AGREGAR ESTOS ESTILOS PARA PAGINACIÓN (después del código de paginación existente): */
+/*--------------------------------------------------------------
+# News Section (REEMPLAZAR COMPLETAMENTE ESTA SECCIÓN)
+--------------------------------------------------------------*/
+/* Estilos corregidos para News Section */
+.news .col-lg-4,
+.news .col-md-6 {
+  margin-bottom: 30px;
+}
+
+.news article.news-item {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.news article.news-item:hover {
+  transform: translateY(-5px);
+}
+
+.news .news-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.news .news-img img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: 0.5s;
+}
+
+.news article.news-item:hover .news-img img {
+  transform: scale(1.1);
+}
+
 .news .news-date {
   position: absolute;
   right: 0;
   bottom: 0;
-  background: var(--primary-color);
+  background: var(--accent-color);
   color: #fff;
   padding: 10px 15px;
   font-size: 14px;
@@ -1806,7 +1884,7 @@ section,
 }
 
 .news .news-content h3 a:hover {
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .news .news-content p {
@@ -1819,12 +1897,12 @@ section,
   display: inline-block;
   font-weight: 500;
   font-size: 14px;
-  color: var(--primary-color);
+  color: var(--accent-color);
   transition: 0.3s;
 }
 
 .news .readmore:hover {
-  color: var(--secondary-color);
+  color: color-mix(in srgb, var(--accent-color), transparent 25%);
 }
 
 .news .readmore i {
@@ -1837,40 +1915,62 @@ section,
   margin-left: 10px;
 }
 
-.news .pagination {
+/* Estilos mejorados para la paginación */
+.pagination {
   margin-top: 30px;
 }
 
-.news .pagination ul {
-  display: flex;
-  padding-left: 0;
+.pagination ul {
   list-style: none;
-  border-radius: 0.25rem;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
 }
 
-.news .pagination li {
-  margin: 0 4px;
-}
-
-.news .pagination a {
+.pagination ul li a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  background-color: #f8f9fa;
+  color: #424649;
+  border-radius: 4px;
   text-decoration: none;
-  background: #f8f9fa;
-  color: var(--default-color);
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
-.news .pagination a:hover,
-.news .pagination a.active {
-  background: var(--primary-color);
-  color: #fff;
+.pagination ul li a.active {
+  background-color: var(--accent-color);
+  color: white;
 }
 
+.pagination ul li a:hover:not(.active):not(.disabled) {
+  background-color: #e9ecef;
+}
+
+.pagination ul li a.disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Animación cuando cambian las noticias */
+.news-item {
+  transition: opacity 0.3s ease;
+}
+
+/* Para el efecto de carga cuando se cambia de página */
+.news-item.loading {
+  opacity: 0;
+}
+
+.news-item.loaded {
+  opacity: 1;
+}
 
 /* Asegurar que el enlace de contacto solo se muestre en móviles en el menú */
 @media (min-width: 1200px) {

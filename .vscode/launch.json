@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Listen for Xdebug",
+        "type": "php",
+        "request": "launch",
+        "port": 9003,
+        "pathMappings": {
+          "C:/xampp/htdocs/web-cooperativa": "${workspaceFolder}"
+        }
+      },
+      {
+        "name": "Launch Chrome",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost/web-cooperativa",
+        "webRoot": "${workspaceFolder}"
+      }
+    ]
+  }
